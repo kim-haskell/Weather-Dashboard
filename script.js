@@ -10,26 +10,26 @@ $(document).ready(function(){
     });
     function makeRow(text) {
         searchWeather($(this).text());
-
     }
     
     
     function searchWeather(searchValue) {
-    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=Denver&APPID=a13b9c3cca609f2bad9924f130ee8841";
+    var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchValue + "&appid=a13b9c3cca609f2bad9924f130ee8841";
         $.ajax({
-            url: queryURL, 
-            method: "GET",
-            dataType: "JSON", 
-        }).then(function(response){
-            
-            var wind = $("<p>").addClass("card-text").text("wind-speed: " + data.wind.speed + "mph");
-            var temp = $("<p>").addClass("card-text").text("temperature: " + data.main.temp + "Farenheit");
-            var humidity = $("<p>").addClass("card-text").text("humidity: " + data.main.humidity + "%");
-            var uvIndex = $("<p>").addClass("card-text").text("UV Index: " + data.main.uvIndex)
+          url: queryURL, 
+          method: "GET",
+          dataType: "JSON", 
+          success: function(response){
+    
+            var wind = $("<p>").addClass("card-text").text("wind-speed: " + response.wind.speed + "mph");
+            var temp = $("<p>").addClass("card-text").text("temperature: " + response.main.temp + "Farenheit");
+            var humidity = $("<p>").addClass("card-text").text("humidity: " + response.main.humidity + "%");
+            var uvIndex = $("<p>").addClass("card-text").text("UV Index: " + response.main.uvIndex)
 
-           $("#card-text").text(response);
+           $("card-text").text(response);
+          }
         });
-           
+    }
    // function getForecast(searchValue) {
        // $.ajax({
 
@@ -43,5 +43,5 @@ $(document).ready(function(){
     //for (var i = 0; i < history.length; i++){
      //   makeRow(history[i]);
    // }
-}
-    });
+    
+    })
