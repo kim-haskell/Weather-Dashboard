@@ -15,7 +15,7 @@ $(document).ready(function(){
     
     
     function searchWeather(searchValue) {
-    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=Denver&APPID=a13b9c3cca609f2bad9924f130ee8841";
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=Denver&APPID=a13b9c3cca609f2bad9924f130ee8841";
         $.ajax({
             url: queryURL, 
             method: "GET",
