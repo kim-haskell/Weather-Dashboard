@@ -4,14 +4,16 @@ $(document).ready(function(){
         var searchValue = $("#search-value").val();
         $("search-value").val("");
         searchWeather(searchValue);
+        getForecast(searchValue);
 
     });
     $(".list-group history").on("click", "li", function(){
-
+        searchWeather($(this).text());
     });
 
     function makeRow(text) {
-        searchWeather($(this).text());
+        var listItem = $("<li>").addClass("list-group-item list-group-item-action").text(text);
+        $(".history").append(listItem)
     }
 
     function searchWeather(searchValue) {
@@ -21,17 +23,30 @@ $(document).ready(function(){
           method: "GET",
           dataType: "JSON", 
           success: function(response){
-               //console.log(response.wind.speed)
+               console.log(response)
+            if (history.indexOf(searchValue) === -1){
+                history.push(searchValue);
+                window.localStorage.setItem("history", JSON.stringify(history));
+                makeRow(searchValue)
+            }
+
+
+
+             $("#today").empty();  
+            var city = $("<h1>").addClass("card-text").text(response.name); 
             var wind = $("<p>").addClass("card-text").text("Wind-speed: " + response.wind.speed + " mph");
             var temp = $("<p>").addClass("card-text").text("Temperature: " + response.main.temp + " Fahrenheit");
+            var icon = $("<img>").attr("src", "https://openweathermap.org/img/w/" + response.weather[0].icon + ".png");
             var humidity = $("<p>").addClass("card-text").text("Humidity: " + response.main.humidity + " %");
             var uvIndex = $("<p>").addClass("card-text").text("UV Index: " + response.main.uvIndex)
             
-           $("#today").append(searchValue);
-           $("#today").append(temp);
+           $("#today").append(city);
+           $("#today").append(icon);
+            $("#today").append(temp);
            $("#today").append(wind);
            $("#today").append(humidity);
            $("#today").append(uvIndex);
+
 
           }
         });
@@ -45,10 +60,21 @@ $(document).ready(function(){
          method: "GET",
          dataType: "JSON",
          success: function(data){
-             console.log(data.main.temp)
-             var day1 = $("<div>").addClass("card-forecast").text("Temperature: " + data.main.temp + " Fahrenheit");
-
-             $("#forecast").append(day1);
+             console.log(data);
+             $("#forecast").html("<h4 class=\"mt-3\">5-Day Forecast:</h4>").append("<div class=\"row\">");
+             for (var i =0; i < data.list.length; i++){
+                 if (data.list[i].dt_txt.indexOf("12:00:00") !== -1){
+                    var col = $("<div>").addClass("col-md-2");
+                    var card = $("<div>").addClass("card bg-primary text-white");
+                    var body = $("<div>").addClass("card-body p-2");
+                   // var titleDate = 
+                   var icon = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png");
+                   var temp = $("<p>").addClass("card-text").text("Temp: " + data.list[i].main.temp);
+                   var humid = $("<p>").addClass("card-text").text("Humidity: " + data.list[i].main.humidity);
+                   col.append(card.append(body.append(temp, humid, icon)));
+                   $("#forecast .row").append(col)
+                 }
+             }
          }
        })
    }
