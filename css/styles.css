@@ -1,6 +1,6 @@
 body{
     margin: 0;
-    padding: 30px;
+    padding: 10px;
 
 
 }
@@ -11,3 +11,10 @@ body{
     text-emphasis: bold;
 }
 
+#today {
+    border: solid;
+    border-color:  darkgrey;
+    padding: 20px;
+    border-radius: 20px;
+
+}
