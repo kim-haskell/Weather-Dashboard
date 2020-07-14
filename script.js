@@ -42,7 +42,7 @@ $(document).ready(function(){
             
            $("#today").append(city);
            $("#today").append(icon);
-            $("#today").append(temp);
+           $("#today").append(temp);
            $("#today").append(wind);
            $("#today").append(humidity);
            $("#today").append(uvIndex);
@@ -69,8 +69,8 @@ $(document).ready(function(){
                     var body = $("<div>").addClass("card-body p-2");
                    // var titleDate = 
                    var icon = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png");
-                   var temp = $("<p>").addClass("card-text").text("Temp: " + data.list[i].main.temp);
-                   var humid = $("<p>").addClass("card-text").text("Humidity: " + data.list[i].main.humidity);
+                   var temp = $("<p>").addClass("card-text").text("Temp: " + data.list[i].main.temp + " F");
+                   var humid = $("<p>").addClass("card-text").text("Humidity: " + data.list[i].main.humidity + "%");
                    col.append(card.append(body.append(temp, humid, icon)));
                    $("#forecast .row").append(col)
                  }
